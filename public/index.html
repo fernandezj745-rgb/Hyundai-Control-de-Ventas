@@ -1,0 +1,242 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102b46"><title>Hyundai Control de Ventas</title>
+<style>
+:root{--navy:#102b46;--blue:#1769aa;--bg:#f2f5f8;--ink:#172536;--muted:#637487;--line:#dce4ec;--green:#16845b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,sans-serif}header{background:linear-gradient(120deg,#102b46,#1769aa);color:white;padding:22px 16px}header h1{margin:0;font-size:23px}header p{margin:6px 0 0;color:#d9e8f5}main{max-width:900px;margin:auto;padding:15px}.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #102b4609}h2{font-size:18px;margin:0 0 13px}.muted,label{color:var(--muted);font-size:13px}.grid,.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{display:block;margin-bottom:5px}input,select,button{font:inherit;border-radius:9px}input,select{width:100%;padding:11px;border:1px solid #cbd6e0;background:white;color:var(--ink)}button{border:0;background:var(--blue);color:white;padding:11px 15px;font-weight:650;cursor:pointer}.secondary{background:#eaf1f7;color:var(--navy)}.danger{background:#fff0f0;color:#a22}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.metric,.target{background:#f6f9fc;border:1px solid var(--line);border-radius:10px;padding:11px}.metric small{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;font-size:20px;margin-top:4px;overflow-wrap:anywhere}.category{border:1px solid var(--line);border-radius:12px;padding:13px;margin:10px 0}.category h3{font-size:16px;margin:0 0 10px}.bar{height:9px;border-radius:20px;background:#e7edf3;overflow:hidden;margin:9px 0}.bar span{display:block;height:100%;background:var(--green)}.targets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}.target{text-align:center;padding:9px 5px}.target b{display:block;font-size:12px;color:var(--muted)}.target span{font-size:13px;font-weight:700}table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:left;padding:9px 5px;border-bottom:1px solid var(--line)}th{color:var(--muted)}.notice{background:#fff8e8;border:1px solid #f0dfb4;padding:10px;border-radius:9px;font-size:13px}@media(max-width:520px){.targets{grid-template-columns:repeat(2,1fr)}header h1{font-size:20px}}
+.tabbar{display:flex;gap:8px;margin:0 0 14px;position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0}.tab-button{flex:1}.tab-button.active{background:var(--navy);color:white}.tab-content{display:none}.tab-content.active{display:block}textarea{width:100%;padding:11px;border:1px solid #cbd6e0;border-radius:9px;font:inherit;color:var(--ink);background:white;resize:vertical}
+
+#appShell{display:none}.login-wrap{max-width:440px;margin:7vh auto;padding:18px}.login-card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 3px 16px #102b4612}.login-card h2{margin:0 0 8px}.login-card input{margin:6px 0 12px}.login-card button{width:100%;margin-top:8px}.login-status{min-height:22px;color:var(--muted);font-size:13px}.syncbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}.syncbar small{color:var(--muted)}
+</style></head><body>
+<section class="login-wrap" id="loginView"><div class="login-card"><h2>Hyundai Control de Ventas</h2><p class="muted">Inicia sesión para acceder al seguimiento compartido del equipo.</p><label for="loginEmail">Correo electrónico</label><input id="loginEmail" type="email" autocomplete="username" placeholder="tu correo" required><label for="loginPassword">Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Contraseña" required><button id="loginButton" type="button">Iniciar sesión</button><button id="resetPasswordButton" type="button" class="secondary">Enviar enlace para restablecer contraseña</button><p class="login-status" id="loginStatus" aria-live="polite"></p></div></section>
+<div id="appShell"><header><h1>Hyundai Control de Ventas</h1><p>Seguimiento mensual de metas y ventas</p></header><main>
+<div class="syncbar"><small id="syncStatus">Conectando con el equipo…</small><button type="button" class="secondary" id="logoutButton">Cerrar sesión</button></div>
+<nav class="tabbar" aria-label="Secciones de la aplicación">
+<button type="button" class="tab-button active" data-tab="dailyTab">Reporte diario</button>
+<button type="button" class="tab-button secondary" data-tab="monthlyTab">Control mensual</button>
+</nav>
+<div id="dailyTab" class="tab-content active">
+<section class="panel" id="dailyReportPanel">
+<h2>Reporte diario de ventas</h2>
+<p class="muted">Completa los datos y genera el reporte listo para WhatsApp. Las ventas por categoría se registran automáticamente en el seguimiento mensual según la fecha del reporte.</p>
+<div class="grid">
+<div><label for="rPdv">Punto de venta (PDV)</label><input id="rPdv" placeholder="Ej. PDV X"></div>
+<div><label for="rDate">Fecha</label><input id="rDate" type="date"></div>
+</div>
+<h3>Productos vendidos</h3>
+<label for="rProducts">Una referencia por línea</label><textarea id="rProducts" rows="4" placeholder="HYLED5027Q&#10;HYLED 58Q&#10;HYSPBT999"></textarea>
+<h3>Venta sin IVA por categoría (COP)</h3>
+<div class="grid">
+<div><label for="rTv">TV Hyundai</label><input id="rTv" type="number" min="0" placeholder="0"></div>
+<div><label for="rAudio">Audio</label><input id="rAudio" type="number" min="0" placeholder="0"></div>
+<div><label for="rAaHy">AA Hyundai</label><input id="rAaHy" type="number" min="0" placeholder="0"></div>
+<div><label for="rTvFin">TV Finlandek</label><input id="rTvFin" type="number" min="0" placeholder="0"></div>
+</div>
+<div class="metric"><small>Total sin IVA (suma de las cuatro categorías)</small><strong id="rTotal">$0</strong></div>
+<h3>Aportes por embajador</h3>
+<p class="muted">Cuatro espacios fijos. Incluye los embajadores apoyados en el PDV, también tropa.</p>
+<div id="rAmbassadors" class="grid">
+<div><label for="rAmbName1">Embajador 1</label><input id="rAmbName1" placeholder="Nombre (opcional)"><label for="rAmbAmount1">Aporte (COP)</label><input id="rAmbAmount1" type="number" min="0" placeholder="0"></div>
+<div><label for="rAmbName2">Embajador 2</label><input id="rAmbName2" placeholder="Nombre (opcional)"><label for="rAmbAmount2">Aporte (COP)</label><input id="rAmbAmount2" type="number" min="0" placeholder="0"></div>
+<div><label for="rAmbName3">Embajador 3</label><input id="rAmbName3" placeholder="Nombre (opcional)"><label for="rAmbAmount3">Aporte (COP)</label><input id="rAmbAmount3" type="number" min="0" placeholder="0"></div>
+<div><label for="rAmbName4">Embajador 4</label><input id="rAmbName4" placeholder="Nombre (opcional)"><label for="rAmbAmount4">Aporte (COP)</label><input id="rAmbAmount4" type="number" min="0" placeholder="0"></div>
+</div>
+<h3>Presupuesto y cumplimiento</h3>
+<div class="grid">
+<div><label for="rBudget">Presupuesto del mes (automático)</label><input id="rBudget" type="number" min="0" placeholder="Se toma de las metas mensuales" readonly></div>
+<div><label for="rSalesToDate">Venta acumulada del mes (automático)</label><input id="rSalesToDate" type="number" min="0" placeholder="Se toma de las ventas registradas" readonly></div>
+</div>
+<div class="metric"><small>Cumplimiento a la fecha</small><strong id="rCompliance">0%</strong></div>
+<h3>Venta de la competencia</h3>
+<p class="muted">Registra unidades y tamaños por marca. Ejemplo: 50 (2), 43 (1).</p>
+<div id="rCompetition"></div>
+<div class="actions"><button type="button" id="rGenerate">Generar reporte</button><button type="button" id="rShare">Compartir por WhatsApp</button><button type="button" class="secondary" id="rCopy">Copiar para WhatsApp</button></div>
+<label for="rOutput">Reporte generado</label>
+<textarea id="rOutput" rows="18" readonly placeholder="Aquí aparecerá tu reporte..."></textarea>
+<p class="muted" id="rMessage" aria-live="polite"></p>
+</section>
+</div>
+<div id="monthlyTab" class="tab-content">
+<section class="panel"><h2>Mes de trabajo</h2><div class="grid"><div><label for="month">Mes</label><input id="month" type="month"></div><div><label>Moneda</label><input value="Pesos colombianos (COP)" disabled></div></div><p class="muted">Las metas y ventas se sincronizan con la cuenta compartida del equipo cuando hay conexión a internet.</p></section>
+<section class="panel"><h2>Resumen general — cuatro categorías</h2><div class="cards"><div class="metric"><small>Meta total del mes</small><strong id="totalGoal">$0</strong></div><div class="metric"><small>Ventas acumuladas</small><strong id="totalSales">$0</strong></div><div class="metric"><small>Cumplimiento</small><strong id="totalPct">0%</strong></div><div class="metric"><small>Proyección al cierre</small><strong id="totalProjection">$0</strong></div></div><div class="bar"><span id="totalBar"></span></div><div class="targets" id="totalTargets"></div><div class="metric" style="margin-top:10px"><small>Venta diaria necesaria para alcanzar el 100% de la meta general</small><strong id="dailyTotal">$0</strong><small id="daysLeft"></small></div></section>
+<section class="panel"><h2>Metas por categoría</h2><div id="categories"></div></section>
+<section class="panel"><h2>Registrar una venta</h2><div class="grid"><div><label for="saleCategory">Categoría</label><select id="saleCategory"></select></div><div><label for="saleDate">Fecha de venta</label><input id="saleDate" type="date"></div><div><label for="saleAmount">Valor de la venta (pesos)</label><input id="saleAmount" type="number" min="1" step="1" placeholder="Ej. 850000"></div></div><div class="actions"><button id="addSale">Guardar venta</button></div><p class="muted" id="saleMessage" aria-live="polite"></p></section>
+<section class="panel"><h2>Ventas registradas en el mes</h2><div id="salesList"></div><div class="actions"><button class="secondary" id="export">Exportar respaldo (JSON)</button><button class="secondary" id="importBtn">Importar respaldo</button><input id="importFile" type="file" accept="application/json" hidden></div></section>
+<div class="notice">La proyección estima el cierre según el promedio diario registrado hasta hoy. La venta diaria necesaria reparte lo que falta entre los días calendario restantes, contando hoy.</div>
+</div>
+</main></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getFirestore, doc, onSnapshot, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBu23LTBbD9Bzy8cJAbY7nSOgnZsOReKeM",
+  authDomain: "seguimiento-de-ventas-1f818.firebaseapp.com",
+  projectId: "seguimiento-de-ventas-1f818",
+  storageBucket: "seguimiento-de-ventas-1f818.firebasestorage.app",
+  messagingSenderId: "972349358240",
+  appId: "1:972349358240:web:be5680fd282054c1d309c5",
+  measurementId: "G-TLKZXHWV5Y"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const cloudDb = getFirestore(firebaseApp);
+const allowedEmails = ["fernandezj745@gmail.com", "thebotssense@gmail.com", "tvcuetoandres@gmail.com"];
+let currentUser = null, syncReady = false, stopCloudListener = null, cloudWriteQueue = Promise.resolve();
+const loginStatus = document.getElementById("loginStatus");
+document.getElementById("loginButton").addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  const password = document.getElementById("loginPassword").value;
+  if (!allowedEmails.includes(email)) { loginStatus.textContent = "Este correo no está autorizado para el equipo."; return; }
+  try { loginStatus.textContent = "Iniciando sesión…"; await signInWithEmailAndPassword(auth, email, password); loginStatus.textContent = ""; }
+  catch (e) { loginStatus.textContent = e.code === "auth/invalid-credential" ? "Correo o contraseña incorrectos. Si aún no tienes contraseña, usa el enlace para restablecerla." : "No se pudo iniciar sesión: " + e.message; }
+});
+document.getElementById("resetPasswordButton").addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  if (!allowedEmails.includes(email)) { loginStatus.textContent = "Escribe uno de los tres correos autorizados."; return; }
+  try { await sendPasswordResetEmail(auth, email); loginStatus.textContent = "Enviamos un enlace para crear o restablecer tu contraseña. Revisa tu correo."; }
+  catch (e) { loginStatus.textContent = "No se pudo enviar el enlace: " + e.message; }
+});
+document.getElementById("logoutButton").addEventListener("click", () => signOut(auth));
+
+document.querySelectorAll('.tab-button').forEach(button=>button.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-button').forEach(b=>{b.classList.toggle('active',b===button);b.classList.toggle('secondary',b!==button)});
+  document.querySelectorAll('.tab-content').forEach(panel=>panel.classList.toggle('active',panel.id===button.dataset.tab));
+}));
+const names=["TV Hyundai","Audio Hyundai","Aires acondicionados Hyundai","TV Finlandek"],key="hyundai-control-ventas-v2",$=id=>document.getElementById(id),now=new Date(),pad=n=>String(n).padStart(2,"0"),monthNow=`${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+$("month").value=monthNow;$("saleDate").value=`${monthNow}-${pad(now.getDate())}`;
+let db=JSON.parse(localStorage.getItem(key)||'{"goals":{},"sales":[]}');
+const money=n=>new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maximumFractionDigits:0}).format(Math.round(n||0)),selectedMonth=()=>$("month").value||monthNow,inMonth=s=>s.date.slice(0,7)===selectedMonth(),goal=i=>Number(db.goals[`${selectedMonth()}_${i}`]||0),sales=i=>db.sales.filter(s=>inMonth(s)&&s.category===i).reduce((a,s)=>a+s.amount,0),sumSales=()=>db.sales.filter(inMonth).reduce((a,s)=>a+s.amount,0);
+function monthInfo(){let [y,m]=selectedMonth().split("-").map(Number),total=new Date(y,m,0).getDate(),today=new Date(),current=selectedMonth()===monthNow,elapsed=current?today.getDate():selectedMonth()<monthNow?total:0,remaining=current?Math.max(1,total-today.getDate()+1):selectedMonth()<monthNow?0:total;return{total,elapsed,remaining}}
+function targets(g,s,d){return[80,90,100,111].map(p=>({p,remaining:Math.max(0,g*p/100-s),daily:d?Math.max(0,g*p/100-s)/d:0}))}
+function render(){let info=monthInfo(),gTotal=names.reduce((a,_,i)=>a+goal(i),0),sTotal=sumSales(),pct=gTotal?sTotal/gTotal*100:0,projection=info.elapsed?sTotal/info.elapsed*info.total:0;$("totalGoal").textContent=money(gTotal);$("totalSales").textContent=money(sTotal);$("totalPct").textContent=pct.toFixed(1)+"%";$("totalProjection").textContent=money(projection);$("totalBar").style.width=Math.min(100,pct)+"%";$("totalTargets").innerHTML=targets(gTotal,sTotal,info.remaining).map(t=>`<div class="target"><b>${t.p}% · falta</b><span>${money(t.remaining)}</span><b>Diario: ${money(t.daily)}</b></div>`).join("");$("dailyTotal").textContent=money(Math.max(0,gTotal-sTotal)/Math.max(1,info.remaining));$("daysLeft").textContent=`${info.remaining} día(s) calendario restante(s), contando hoy cuando corresponde.`;
+$("categories").innerHTML=names.map((n,i)=>{let g=goal(i),s=sales(i),p=g?s/g*100:0,proj=info.elapsed?s/info.elapsed*info.total:0;return`<div class="category"><h3>${n}</h3><div class="grid"><div><label>Meta mensual ($)</label><input type="number" min="0" step="1" value="${g}" data-goal="${i}" placeholder="Escribe la meta"></div><div><label>Ventas acumuladas</label><input value="${money(s)}" disabled></div></div><div class="bar"><span style="width:${Math.min(100,p)}%"></span></div><div class="muted">Cumplimiento: <b>${p.toFixed(1)}%</b> · Proyección: <b>${money(proj)}</b></div><div class="targets">${targets(g,s,info.remaining).map(t=>`<div class="target"><b>${t.p}% · falta</b><span>${money(t.remaining)}</span><b>Diario ${money(t.daily)}</b></div>`).join("")}</div></div>`}).join("");
+document.querySelectorAll("[data-goal]").forEach(el=>el.addEventListener("change",()=>{db.goals[`${selectedMonth()}_${el.dataset.goal}`]=Math.max(0,Number(el.value)||0);save();render()}));$("saleCategory").innerHTML=names.map((n,i)=>`<option value="${i}">${n}</option>`).join("");let list=db.sales.filter(inMonth).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);$("salesList").innerHTML=list.length?`<table><thead><tr><th>Fecha</th><th>Categoría</th><th>Valor</th><th></th></tr></thead><tbody>${list.map(s=>`<tr><td>${s.date}</td><td>${names[s.category]}</td><td>${money(s.amount)}</td><td><button class="danger" data-del="${s.id}">Eliminar</button></td></tr>`).join("")}</tbody></table>`:'<p class="muted">Aún no hay ventas registradas en este mes.</p>';document.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{if(confirm("¿Eliminar esta venta?")){db.sales=db.sales.filter(s=>String(s.id)!==b.dataset.del);save();render()}}));syncReportMonthData()}
+function syncReportMonthData(){const budget=names.reduce((a,_,i)=>a+goal(i),0),accumulated=sumSales();$("rBudget").value=budget;$("rSalesToDate").value=accumulated;const compliance=budget?accumulated/budget*100:0;$("rCompliance").textContent=compliance.toFixed(1)+"%"}
+function save(){
+  localStorage.setItem(key,JSON.stringify(db));
+  if(syncReady && currentUser){
+    const payload={goals:db.goals||{},sales:Array.isArray(db.sales)?db.sales:[],updatedAt:serverTimestamp(),updatedBy:currentUser.email};
+    cloudWriteQueue=cloudWriteQueue.then(()=>setDoc(doc(cloudDb,"shared","main"),payload)).catch(err=>{document.getElementById("syncStatus").textContent="Error al sincronizar: "+err.message;});
+  }
+}
+$("month").addEventListener("change",()=>{render();$("saleDate").value=selectedMonth()+"-01";$("rDate").value=selectedMonth()+"-01"});
+$("addSale").addEventListener("click",()=>{let date=$("saleDate").value,amount=Number($("saleAmount").value),category=Number($("saleCategory").value);if(!date||date.slice(0,7)!==selectedMonth()){$("saleMessage").textContent="Selecciona una fecha dentro del mes elegido.";return}if(!(amount>0)){$("saleMessage").textContent="Escribe un valor de venta mayor que cero.";return}db.sales.push({id:Date.now(),date,amount,category});save();$("saleAmount").value="";$("saleMessage").textContent="Venta guardada correctamente.";render()});
+$("export").addEventListener("click",()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="respaldo-hyundai-ventas.json";a.click();URL.revokeObjectURL(a.href)});$("importBtn").addEventListener("click",()=>$("importFile").click());$("importFile").addEventListener("change",async e=>{try{let x=JSON.parse(await e.target.files[0].text());if(!x.goals||!Array.isArray(x.sales))throw Error();db=x;save();render();alert("Respaldo importado.")}catch{alert("No se pudo leer el respaldo.")}e.target.value=""});render();
+
+// Módulo de reporte diario
+const rMoney=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(n)||0);
+const rVal=id=>Math.max(0,Number(document.getElementById(id).value)||0);
+const rCategories=[['TV HYUNDAI','rTv'],['AUDIO','rAudio'],['AA HYUNDAI','rAaHy'],['TV FINLANDEK','rTvFin']];
+const rBrands=['Samsung','LG','Challenger','TCL','HISENSE','CAIXUN'];
+const rAmb=document.getElementById('rAmbassadors'),rComp=document.getElementById('rCompetition');
+
+function rInitCompetition(){rComp.innerHTML=rBrands.map((b,i)=>`<div class="grid" style="margin-bottom:8px"><div><label>${b} · Cantidad</label><input class="rBrandQty" data-brand="${b}" type="number" min="0" placeholder="0"></div><div><label>${b} · Tamaños (pulgadas)</label><input class="rBrandSizes" data-brand="${b}" placeholder="Ej. 50 (2), 43 (1)"></div></div>`).join('')}
+rInitCompetition();
+const rToday=new Date();document.getElementById('rDate').value=`${rToday.getFullYear()}-${String(rToday.getMonth()+1).padStart(2,'0')}-${String(rToday.getDate()).padStart(2,'0')}`;
+function rCalc(){const total=rCategories.reduce((a,x)=>a+rVal(x[1]),0);document.getElementById('rTotal').textContent=rMoney(total);const budget=rVal('rBudget'),sales=rVal('rSalesToDate');document.getElementById('rCompliance').textContent=(budget?sales/budget*100:0).toFixed(1)+'%'}
+let rLastSyncedDate=document.getElementById('rDate').value;
+function syncDailySales(){
+  const date=document.getElementById('rDate').value;
+  if(!date)return;
+  // Mantiene una venta mensual por cada categoría del reporte diario, sin duplicarla al editar.
+  if(rLastSyncedDate && rLastSyncedDate!==date){
+    const oldPrefix=`daily-report:${rLastSyncedDate}:`;
+    db.sales=db.sales.filter(s=>!String(s.sourceKey||'').startsWith(oldPrefix));
+  }
+  rCategories.forEach(([label,id],i)=>{
+    const sourceKey=`daily-report:${date}:${i}`;
+    db.sales=db.sales.filter(s=>s.sourceKey!==sourceKey);
+    const amount=rVal(id);
+    if(amount>0)db.sales.push({id:Date.now()+i,date,amount,category:i,sourceKey});
+  });
+  rLastSyncedDate=date;
+  save();
+  render();
+}
+rCategories.forEach(x=>document.getElementById(x[1]).addEventListener('input',()=>{rCalc();syncDailySales()}));
+document.getElementById('rDate').addEventListener('change',()=>syncDailySales());
+function rBuild(){rCalc();const pdv=document.getElementById('rPdv').value.trim()||'PDV',date=document.getElementById('rDate').value;const dateText=date?date.split('-').reverse().join('/'):'Fecha';let out=`VENTAS ${pdv.toUpperCase()}
+${dateText}
+
+*PRODUCTO*
+
+${document.getElementById('rProducts').value.trim()||'Sin referencias registradas'}
+
+*VENTA SIN IVA POR CATEGORIA*
+
+`;
+rCategories.forEach(([label,id])=>out+=`${label}: ${rMoney(rVal(id))}
+`);
+const total=rCategories.reduce((a,x)=>a+rVal(x[1]),0);out+=`
+*TOTAL SIN IVA ${rMoney(total)}*
+(SUMA DE LAS CUATRO CATEGORIAS)
+
+Aportes por embajador
+(Cantidad de embajadores que apoye el pdv incluyendo tropa)
+
+`;
+for(let i=1;i<=4;i++){const name=document.getElementById(`rAmbName${i}`).value.trim()||`Embajador ${i}`;const amount=rVal(`rAmbAmount${i}`);out+=`${name}: ${rMoney(amount)}\n`}
+const budget=rVal('rBudget'),sales=rVal('rSalesToDate'),pct=budget?sales/budget*100:0;out+=`
+Presupuesto mes: ${rMoney(budget)}
+VENTA A LA FECHA: ${rMoney(sales)}
+CUMPLIMIENTO A LA FECHA: ${pct.toFixed(1)} %
+
+*VENTA COMPETENCIA*
+
+`;
+rBrands.forEach(b=>{const q=Number(rComp.querySelector(`.rBrandQty[data-brand="${b}"]`).value)||0;const sizes=rComp.querySelector(`.rBrandSizes[data-brand="${b}"]`).value.trim();if(q||sizes)out+=`${b}: ${q}${sizes?' ('+sizes+')':''}
+`;else out+=`${b}: 0
+`});
+document.getElementById('rOutput').value=out;document.getElementById('rMessage').textContent='Reporte generado. Revisa los datos antes de copiar.';return out}
+document.getElementById('rGenerate').addEventListener('click',rBuild);
+document.getElementById('rShare').addEventListener('click',async()=>{
+  const out=document.getElementById('rOutput').value.trim()||rBuild();
+  if(navigator.share){
+    try{await navigator.share({text:out});document.getElementById('rMessage').textContent='Se abrió el menú para compartir. Selecciona WhatsApp y el destinatario.';}
+    catch(e){if(e.name!=='AbortError')document.getElementById('rMessage').textContent='No se pudo abrir el menú para compartir. Puedes copiar el reporte.';}
+  }else{
+    const url='https://wa.me/?text='+encodeURIComponent(out);
+    window.location.href=url;
+    document.getElementById('rMessage').textContent='Abriendo WhatsApp con el reporte preparado.';
+  }
+});
+document.getElementById('rCopy').addEventListener('click',async()=>{const out=document.getElementById('rOutput').value||rBuild();try{await navigator.clipboard.writeText(out);document.getElementById('rMessage').textContent='Reporte copiado. Ya puedes pegarlo en WhatsApp.'}catch(e){document.getElementById('rOutput').focus();document.getElementById('rOutput').select();document.getElementById('rMessage').textContent='Selecciona y copia el texto del reporte.'}});
+// Sincronización compartida: metas y ventas quedan en un documento común de Firestore.
+onAuthStateChanged(auth, user => {
+  syncReady = false;
+  currentUser = user;
+  if (stopCloudListener) { stopCloudListener(); stopCloudListener = null; }
+  document.getElementById("loginView").style.display = user ? "none" : "block";
+  document.getElementById("appShell").style.display = user ? "block" : "none";
+  if (!user) { document.getElementById("syncStatus").textContent = "Sesión cerrada"; return; }
+  if (!allowedEmails.includes((user.email||"").toLowerCase())) { signOut(auth); loginStatus.textContent = "Este correo no está autorizado."; return; }
+  document.getElementById("syncStatus").textContent = "Conectando datos compartidos…";
+  const sharedRef = doc(cloudDb,"shared","main");
+  let firstSnapshot = true;
+  stopCloudListener = onSnapshot(sharedRef, async snap => {
+    if (snap.exists()) {
+      const remote = snap.data();
+      db = {goals: remote.goals || {}, sales: Array.isArray(remote.sales) ? remote.sales : []};
+      localStorage.setItem(key,JSON.stringify(db));
+      syncReady = true;
+      render();
+      document.getElementById("syncStatus").textContent = "Sincronizado · " + user.email;
+    } else if (firstSnapshot) {
+      // Migra los datos locales del primer dispositivo si la nube aún está vacía.
+      const local = JSON.parse(localStorage.getItem(key)||'{"goals":{},"sales":[]}');
+      db = {goals:local.goals||{},sales:Array.isArray(local.sales)?local.sales:[]};
+      await setDoc(sharedRef,{...db,updatedAt:serverTimestamp(),updatedBy:user.email});
+      syncReady = true;
+      render();
+      document.getElementById("syncStatus").textContent = "Datos iniciales enviados a la nube";
+    }
+    firstSnapshot = false;
+  }, err => {
+    syncReady = false;
+    document.getElementById("syncStatus").textContent = "Error de Firestore: " + err.message;
+  });
+});
+
+rCalc();
+document.querySelectorAll('#dailyReportPanel input, #dailyReportPanel textarea').forEach(el=>el.addEventListener('input',()=>{if(el.id.startsWith('r') && !['rTv','rAudio','rAaHy','rTvFin'].includes(el.id))rCalc()}));
+
+</script></body></html>
