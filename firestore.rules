@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function equipoAutorizado() {
+      return request.auth != null && request.auth.token.email in [
+        'fernandezj745@gmail.com',
+        'thebotssense@gmail.com',
+        'tvcuetoandres@gmail.com'
+      ];
+    }
+    // La app actual comparte metas, ventas y nombres en shared/main.
+    match /shared/main {
+      allow read, write: if equipoAutorizado();
+    }
+    // Bloquea el resto de documentos hasta que se definan reglas específicas.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

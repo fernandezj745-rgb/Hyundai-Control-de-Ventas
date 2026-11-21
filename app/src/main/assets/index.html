@@ -1,0 +1,261 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102b46"><title>Hyundai Control de Ventas</title>
+<style>
+:root{--navy:#061d49;--navy2:#082b67;--blue:#075be5;--cyan:#00c8ff;--bg:#edf3fb;--ink:#10264d;--muted:#64748b;--line:#d7e2f2;--green:#16a34a;--pale:#e8f1ff}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#eaf2ff,#f8fbff);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}header{background:linear-gradient(120deg,#04163b,#073a88 70%,#0875df);color:white;padding:18px 16px 20px;box-shadow:0 5px 18px #06275b30;border-bottom:2px solid #00c8ff}header h1{margin:0;font-size:22px;font-weight:850;letter-spacing:.2px}header h1:before{content:'▥ ';color:#8cecff}header p{margin:5px 0 0;color:#dceaff}main{max-width:920px;margin:auto;padding:14px}.panel{background:white;border:1px solid #dbe7f7;border-radius:19px;padding:16px;margin-bottom:14px;box-shadow:0 6px 20px #0a34700d}h2{font-size:18px;margin:0 0 13px;color:#08265d;font-weight:850}h2:before{content:'◆ ';color:#1264e8;font-size:13px}h3{font-size:15px;color:#10316a;margin:16px 0 9px}.muted,label{color:var(--muted);font-size:13px}.grid,.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{display:block;margin-bottom:5px;font-weight:650}input,select,button,textarea{font:inherit;border-radius:11px}input,select,textarea{width:100%;padding:12px;border:1px solid #c7d7ef;background:#fbfdff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:#1872f5;box-shadow:0 0 0 3px #1672ef20}button{border:0;background:linear-gradient(110deg,#0754d8,#0878f6);color:white;padding:12px 16px;font-weight:750;cursor:pointer;box-shadow:0 4px 10px #075be52b}.secondary{background:#eaf2ff;color:#0a347c;box-shadow:none}.danger{background:#fff0f0;color:#a22;box-shadow:none}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.metric,.target{background:linear-gradient(135deg,#f0f6ff,#e6f0ff);border:1px solid #d2e2fa;border-radius:13px;padding:12px}.metric small{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;font-size:20px;margin-top:4px;overflow-wrap:anywhere;color:#062b70}.category{border:1px solid var(--line);border-radius:14px;padding:13px;margin:10px 0;background:#fbfdff}.category h3{font-size:16px;margin:0 0 10px}.bar{height:11px;border-radius:20px;background:#e1eaf7;overflow:hidden;margin:9px 0}.bar span{display:block;height:100%;background:linear-gradient(90deg,#00a84f,#50dc82);border-radius:20px}.targets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}.target{text-align:center;padding:9px 5px}.target b{display:block;font-size:11px;color:var(--muted)}.target span{font-size:13px;font-weight:800;color:#0b3477}table{width:100%;border-collapse:collapse;font-size:13px;background:white;border-radius:12px;overflow:hidden}td,th{text-align:left;padding:10px 7px;border-bottom:1px solid var(--line)}th{color:white;background:#073b89;font-weight:750}tr:nth-child(even) td{background:#f5f8fe}.notice{background:#fff7dc;border:1px solid #f1d98e;padding:12px;border-radius:12px;font-size:13px;color:#77530a}@media(max-width:520px){.targets{grid-template-columns:repeat(2,1fr)}header h1{font-size:20px}.panel{padding:13px}.tabbar{gap:5px}.tab-button{font-size:12px;padding:10px 5px}}
+.tabbar{display:flex;gap:8px;margin:0 0 14px;position:sticky;top:0;z-index:5;background:#edf3fb;padding:8px 0}.tab-button{flex:1;border-radius:12px}.tab-button.active{background:linear-gradient(110deg,#061d49,#075be5);color:white}.tab-content{display:none}.tab-content.active{display:block}textarea{resize:vertical}.login-wrap{max-width:440px;margin:7vh auto;padding:18px}.login-card{background:white;border:1px solid #d5e3f6;border-radius:22px;padding:22px;box-shadow:0 12px 35px #05275b20}.login-card h2{margin:0 0 8px;font-size:23px}.login-card h2:before{content:'▥ ';color:#0876ee}.login-card input{margin:6px 0 12px}.login-card button{width:100%;margin-top:8px}.login-status{min-height:22px;color:var(--muted);font-size:13px}.bottom-nav{display:flex;gap:6px;position:sticky;bottom:0;z-index:8;background:#fff;border:1px solid #d7e2f2;border-radius:16px;padding:7px;margin:12px 0;box-shadow:0 6px 20px #06275b20;overflow-x:auto}.bottom-nav button{flex:1;min-width:62px;padding:10px 6px;font-size:12px;border-radius:12px;white-space:nowrap}.bottom-nav button.active{background:linear-gradient(110deg,#061d49,#075be5)}.syncbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}.syncbar small{color:var(--muted)}
+</style></head><body>
+<section class="login-wrap" id="loginView"><div class="login-card"><h2>Hyundai Control de Ventas</h2><p class="muted">Inicia sesión para acceder al seguimiento compartido del equipo.</p><label for="loginEmail">Correo electrónico</label><input id="loginEmail" type="email" autocomplete="username" placeholder="tu correo" required><label for="loginPassword">Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Contraseña" required><button id="loginButton" type="button">Iniciar sesión</button><button id="resetPasswordButton" type="button" class="secondary">Enviar enlace para restablecer contraseña</button><p class="login-status" id="loginStatus" aria-live="polite"></p></div></section>
+<div id="appShell"><header><h1>Hyundai Control de Ventas</h1><p>Seguimiento compartido de metas y ventas · COP</p></header><main>
+<div class="syncbar"><small id="syncStatus">Conectando con el equipo…</small><button type="button" class="secondary" id="logoutButton">Cerrar sesión</button></div>
+<nav class="bottom-nav" aria-label="Navegación principal">
+<button type="button" class="active" data-target="saleEntryPanel">🛒<br>Venta</button>
+<button type="button" data-target="mySalesPanel">▤<br>Mis ventas</button>
+<button type="button" data-target="dailyConsolidatedPanel">▥<br>Consolidado</button>
+<button type="button" data-target="monthlySummaryPanel">🎯<br>Meta</button>
+<button type="button" data-target="shiftClosePanel">✓<br>Cierre</button>
+</nav>
+<div id="dailyTab" class="tab-content">
+<section class="panel" id="dailyReportPanel">
+<h2>Reporte diario de ventas</h2>
+<p class="muted">Completa los datos y genera el reporte listo para WhatsApp. Este reporte es informativo. Para acumular ventas y unidades en el mes, cada embajador debe usar Registrar una venta.</p>
+<div class="grid">
+<div><label for="rPdv">Punto de venta (PDV)</label><input id="rPdv" placeholder="Ej. PDV X"></div>
+<div><label for="rDate">Fecha</label><input id="rDate" type="date"></div>
+</div>
+<h3>Productos vendidos</h3>
+<label for="rProducts">Una referencia por línea</label><textarea id="rProducts" rows="4" placeholder="HYLED5027Q&#10;HYLED 58Q&#10;HYSPBT999"></textarea>
+<h3>Venta sin IVA por categoría (COP)</h3>
+<div class="grid">
+<div><label for="rTv">TV Hyundai</label><input id="rTv" type="number" min="0" step="1" placeholder="0"></div>
+<div><label for="rAudio">Audio</label><input id="rAudio" type="number" min="0" step="1" placeholder="0"></div>
+<div><label for="rAaHy">AA Hyundai</label><input id="rAaHy" type="number" min="0" step="1" placeholder="0"></div>
+<div><label for="rTvFin">TV Finlandek</label><input id="rTvFin" type="number" min="0" step="1" placeholder="0"></div>
+</div>
+<div class="metric"><small>Total sin IVA (suma de las cuatro categorías)</small><strong id="rTotal">$0</strong></div>
+<h3>Aportes por embajador</h3>
+<p class="muted">Cuatro espacios fijos. Incluye los embajadores apoyados en el PDV, también tropa.</p>
+<div id="rAmbassadors" class="grid">
+<div><label for="rAmbName1">Embajador 1</label><input id="rAmbName1" placeholder="Nombre (opcional)"><label for="rAmbAmount1">Aporte (COP)</label><input id="rAmbAmount1" type="number" min="0" step="1" placeholder="0"></div>
+<div><label for="rAmbName2">Embajador 2</label><input id="rAmbName2" placeholder="Nombre (opcional)"><label for="rAmbAmount2">Aporte (COP)</label><input id="rAmbAmount2" type="number" min="0" step="1" placeholder="0"></div>
+<div><label for="rAmbName3">Embajador 3</label><input id="rAmbName3" placeholder="Nombre (opcional)"><label for="rAmbAmount3">Aporte (COP)</label><input id="rAmbAmount3" type="number" min="0" step="1" placeholder="0"></div>
+<div><label for="rAmbName4">Embajador 4</label><input id="rAmbName4" placeholder="Nombre (opcional)"><label for="rAmbAmount4">Aporte (COP)</label><input id="rAmbAmount4" type="number" min="0" step="1" placeholder="0"></div>
+</div>
+<h3>Presupuesto y cumplimiento</h3>
+<div class="grid">
+<div><label for="rBudget">Presupuesto del mes (automático)</label><input id="rBudget" type="number" min="0" placeholder="Se toma de las metas mensuales" readonly></div>
+<div><label for="rSalesToDate">Venta acumulada del mes (automático)</label><input id="rSalesToDate" type="number" min="0" placeholder="Se toma de las ventas registradas" readonly></div>
+</div>
+<div class="metric"><small>Cumplimiento a la fecha</small><strong id="rCompliance">0%</strong></div>
+<h3>Venta de la competencia</h3>
+<p class="muted">Registra unidades y tamaños por marca. Ejemplo: 50 (2), 43 (1).</p>
+<div id="rCompetition"></div>
+<div class="actions"><button type="button" id="rGenerate">Generar reporte</button><button type="button" id="rShare">Compartir por WhatsApp</button><button type="button" class="secondary" id="rCopy">Copiar para WhatsApp</button></div>
+<label for="rOutput">Reporte generado</label>
+<textarea id="rOutput" rows="18" readonly placeholder="Aquí aparecerá tu reporte..."></textarea>
+<p class="muted" id="rMessage" aria-live="polite"></p>
+</section>
+</div>
+<div id="monthlyTab" class="tab-content active">
+<section class="panel"><h2>Mes de trabajo</h2><div class="grid"><div><label for="month">Mes</label><input id="month" type="month"></div><div><label>Moneda</label><input value="Pesos colombianos (COP)" disabled></div></div><p class="muted">Las metas y ventas se sincronizan con la cuenta compartida del equipo cuando hay conexión a internet.</p></section>
+<section class="panel" id="monthlySummaryPanel"><h2>Resumen general — cuatro categorías</h2><div class="cards"><div class="metric"><small>Meta total del mes</small><strong id="totalGoal">$0</strong></div><div class="metric"><small>Ventas acumuladas</small><strong id="totalSales">$0</strong></div><div class="metric"><small>Cumplimiento</small><strong id="totalPct">0%</strong></div><div class="metric"><small>Proyección al cierre</small><strong id="totalProjection">$0</strong></div></div><div class="bar"><span id="totalBar"></span></div><div class="targets" id="totalTargets"></div><div class="metric" style="margin-top:10px"><small>Venta diaria necesaria para alcanzar el 100% de la meta general</small><strong id="dailyTotal">$0</strong><small id="daysLeft"></small></div></section>
+<section class="panel"><h2>Metas por categoría</h2><div id="categories"></div></section>
+<section class="panel" id="saleEntryPanel"><h2>🛒 Registrar una venta</h2><p class="muted">El embajador se identifica con la sesión iniciada. Cada registro se comparte con el equipo.</p><div class="grid"><div><label for="ambassadorDisplayName">Nombre del embajador</label><input id="ambassadorDisplayName" maxlength="60" placeholder="Escribe tu nombre para identificar tus ventas"><small class="muted">Se guarda para que el equipo vea tu nombre, no tu correo.</small></div><div><label for="saleCategory">Categoría</label><select id="saleCategory"></select></div><div><label for="saleReference">Referencia / modelo</label><input id="saleReference" maxlength="80" placeholder="Ej. HY-55UHD4K"></div><div><label for="saleDate">Fecha de venta</label><input id="saleDate" type="date"></div><div><label for="saleQty">Cantidad</label><input id="saleQty" type="number" min="1" step="1" value="1"></div><div><label for="saleUnitPrice">Valor unitario (COP)</label><input id="saleUnitPrice" type="number" min="1" step="1" placeholder="Ej. 1500000"></div><div><label for="saleAmount">Total de la venta (COP)</label><input id="saleAmount" type="number" min="1" step="1" placeholder="Se calcula automáticamente" readonly></div></div><div class="actions"><button id="addSale">▣ Guardar venta</button></div><p class="muted" id="saleMessage" aria-live="polite"></p></section><section class="panel" id="dailyConsolidatedPanel"><h2>📊 Consolidado del día</h2><p class="muted">Acumulado de todos los embajadores para la fecha seleccionada.</p><div id="dailyConsolidated"></div></section>
+<section class="panel" id="mySalesPanel"><h2>Mis ventas del mes</h2><div id="mySalesList"></div></section><section class="panel"><h2>Ventas registradas en el mes</h2><div id="salesList"></div><div class="actions"><button class="secondary" id="exportExcel">Exportar Excel del mes</button><button class="secondary" id="export">Exportar respaldo (JSON)</button><button class="secondary" id="importBtn">Importar respaldo</button><input id="importFile" type="file" accept="application/json" hidden></div></section>
+<section class="panel" id="shiftClosePanel"><h2>✓ Cierre de turno</h2><p class="muted">Resumen automático de todas las ventas registradas en la fecha seleccionada.</p><div id="shiftCloseSummary"></div><div class="actions"><button type="button" id="shareShift">Compartir cierre por WhatsApp</button></div></section>
+<div class="notice">La proyección estima el cierre según el promedio diario registrado hasta hoy. La venta diaria necesaria reparte lo que falta entre los días calendario restantes, contando hoy.</div>
+</div>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getFirestore, doc, onSnapshot, setDoc, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBu23LTBbD9Bzy8cJAbY7nSOgnZsOReKeM",
+  authDomain: "seguimiento-de-ventas-1f818.firebaseapp.com",
+  projectId: "seguimiento-de-ventas-1f818",
+  storageBucket: "seguimiento-de-ventas-1f818.firebasestorage.app",
+  messagingSenderId: "972349358240",
+  appId: "1:972349358240:web:be5680fd282054c1d309c5",
+  measurementId: "G-TLKZXHWV5Y"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const cloudDb = getFirestore(firebaseApp);
+let currentUser = null, syncReady = false, stopCloudListener = null, cloudWriteQueue = Promise.resolve();
+const loginStatus = document.getElementById("loginStatus");
+document.getElementById("loginButton").addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  const password = document.getElementById("loginPassword").value;
+  try { loginStatus.textContent = "Iniciando sesión…"; await signInWithEmailAndPassword(auth, email, password); loginStatus.textContent = ""; }
+  catch (e) { loginStatus.textContent = e.code === "auth/invalid-credential" ? "Correo o contraseña incorrectos. Si aún no tienes contraseña, usa el enlace para restablecerla." : "No se pudo iniciar sesión: " + e.message; }
+});
+document.getElementById("resetPasswordButton").addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  try { await sendPasswordResetEmail(auth, email); loginStatus.textContent = "Enviamos un enlace para crear o restablecer tu contraseña. Revisa tu correo."; }
+  catch (e) { loginStatus.textContent = "No se pudo enviar el enlace: " + e.message; }
+});
+document.getElementById("logoutButton").addEventListener("click", () => signOut(auth));
+
+document.querySelectorAll('.bottom-nav button').forEach(button=>button.addEventListener('click',()=>{
+  const target=button.dataset.target;
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active',b===button));
+  const monthly=true; // Todas las pantallas operativas viven en el panel mensual compartido
+  document.querySelectorAll('.tab-content').forEach(panel=>panel.classList.toggle('active',panel.id===(monthly?'monthlyTab':'dailyTab')));
+  setTimeout(()=>document.getElementById(target)?.scrollIntoView({behavior:'smooth',block:'start'}),40);
+}));
+const names=["TV Hyundai","Audio Hyundai","Aires acondicionados Hyundai","TV Finlandek"],key="hyundai-control-ventas-v2",$=id=>document.getElementById(id),now=new Date(),pad=n=>String(n).padStart(2,"0"),monthNow=`${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+$("month").value=monthNow;$("saleDate").value=`${monthNow}-${pad(now.getDate())}`;
+let db=JSON.parse(localStorage.getItem(key)||'{"goals":{},"sales":[]}');
+const money=n=>new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maximumFractionDigits:0}).format(Math.round(n||0)),selectedMonth=()=>$("month").value||monthNow,inMonth=s=>s.date.slice(0,7)===selectedMonth(),goal=i=>Number(db.goals[`${selectedMonth()}_${i}`]||0),sales=i=>db.sales.filter(s=>inMonth(s)&&s.category===i).reduce((a,s)=>a+s.amount,0),sumSales=()=>db.sales.filter(inMonth).reduce((a,s)=>a+s.amount,0);
+function monthInfo(){let [y,m]=selectedMonth().split("-").map(Number),total=new Date(y,m,0).getDate(),today=new Date(),current=selectedMonth()===monthNow,elapsed=current?today.getDate():selectedMonth()<monthNow?total:0,remaining=current?Math.max(1,total-today.getDate()+1):selectedMonth()<monthNow?0:total;return{total,elapsed,remaining}}
+function targets(g,s,d){return[80,90,100,111].map(p=>({p,remaining:Math.max(0,g*p/100-s),daily:d?Math.max(0,g*p/100-s)/d:0}))}
+function render(){let info=monthInfo(),gTotal=names.reduce((a,_,i)=>a+goal(i),0),sTotal=sumSales(),pct=gTotal?sTotal/gTotal*100:0,projection=info.elapsed?sTotal/info.elapsed*info.total:0;$("totalGoal").textContent=money(gTotal);$("totalSales").textContent=money(sTotal);$("totalPct").textContent=pct.toFixed(1)+"%";$("totalProjection").textContent=money(projection);$("totalBar").style.width=Math.min(100,pct)+"%";$("totalTargets").innerHTML=targets(gTotal,sTotal,info.remaining).map(t=>`<div class="target"><b>${t.p}% · falta</b><span>${money(t.remaining)}</span><b>Diario: ${money(t.daily)}</b></div>`).join("");$("dailyTotal").textContent=money(Math.max(0,gTotal-sTotal)/Math.max(1,info.remaining));$("daysLeft").textContent=`${info.remaining} día(s) calendario restante(s), contando hoy cuando corresponde.`;
+$("categories").innerHTML=names.map((n,i)=>{let g=goal(i),s=sales(i),p=g?s/g*100:0,proj=info.elapsed?s/info.elapsed*info.total:0;return`<div class="category"><h3>${n}</h3><div class="grid"><div><label>Meta mensual ($)</label><input type="number" min="0" step="1" value="${g}" data-goal="${i}" placeholder="Escribe la meta"></div><div><label>Ventas acumuladas</label><input value="${money(s)}" disabled></div></div><div class="bar"><span style="width:${Math.min(100,p)}%"></span></div><div class="muted">Cumplimiento: <b>${p.toFixed(1)}%</b> · Proyección: <b>${money(proj)}</b></div><div class="targets">${targets(g,s,info.remaining).map(t=>`<div class="target"><b>${t.p}% · falta</b><span>${money(t.remaining)}</span><b>Diario ${money(t.daily)}</b></div>`).join("")}</div></div>`}).join("");
+document.querySelectorAll("[data-goal]").forEach(el=>el.addEventListener("change",()=>{db.goals[`${selectedMonth()}_${el.dataset.goal}`]=Math.max(0,Number(el.value)||0);save();render()}));$("saleCategory").innerHTML=names.map((n,i)=>`<option value="${i}">${n}</option>`).join("");let list=db.sales.filter(inMonth).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);$("salesList").innerHTML=list.length?`<table><thead><tr><th>Fecha</th><th>Referencia</th><th>Unid.</th><th>Categoría</th><th>Valor</th><th>Embajador</th><th></th></tr></thead><tbody>${list.map(s=>`<tr><td>${s.date}</td><td>${s.reference||"—"}</td><td>${s.quantity||1}</td><td>${names[s.category]}</td><td>${money(s.amount)}</td><td>${(s.ambassador||"Sin identificar").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","\'":"&#39;"}[c]))}</td><td><button class="danger" data-del="${s.id}">Eliminar</button></td></tr>`).join("")}</tbody></table>`:'<p class="muted">Aún no hay ventas registradas en este mes.</p>';const ownSales=db.sales.filter(s=>inMonth(s)&&s.ambassadorEmail===(currentUser?.email||""));
+$("mySalesList").innerHTML=ownSales.length?`<table><thead><tr><th>Fecha</th><th>Referencia</th><th>Unid.</th><th>Valor</th></tr></thead><tbody>${ownSales.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(s=>`<tr><td>${s.date}</td><td>${s.reference||"—"}</td><td>${s.quantity||1}</td><td>${money(s.amount)}</td></tr>`).join("")}</tbody></table>`:'<p class="muted">Todavía no tienes ventas registradas este mes.</p>';
+document.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{if(confirm("¿Eliminar esta venta?")){db.sales=db.sales.filter(s=>String(s.id)!==b.dataset.del);localStorage.setItem(key,JSON.stringify(db));deleteSaleCloud(b.dataset.del);render()}}));syncReportMonthData();renderDailyConsolidated()}
+async function deleteSaleCloud(id){if(!syncReady||!currentUser)return;try{await runTransaction(cloudDb,async tx=>{const ref=doc(cloudDb,"shared","main"),snap=await tx.get(ref);if(!snap.exists())return;const d=snap.data();tx.update(ref,{sales:(d.sales||[]).filter(s=>String(s.id)!==String(id)),updatedAt:serverTimestamp(),updatedBy:currentUser.email});});}catch(e){document.getElementById("syncStatus").textContent="No se pudo eliminar en la nube: "+e.message;}}
+function syncReportMonthData(){const budget=names.reduce((a,_,i)=>a+goal(i),0),accumulated=sumSales();$("rBudget").value=budget;$("rSalesToDate").value=accumulated;const compliance=budget?accumulated/budget*100:0;$("rCompliance").textContent=compliance.toFixed(1)+"%"}
+function save(){
+  localStorage.setItem(key,JSON.stringify(db));
+  if(syncReady && currentUser){
+    const localGoals={...(db.goals||{})}, localSales=Array.isArray(db.sales)?db.sales.map(s=>({...s,amount:Math.round(Number(s.amount)||0)})):[];
+    // Cada venta se identifica por un ID único. La transacción vuelve a leer el
+    // documento remoto y combina por ID para que dos teléfonos no se pisen.
+    cloudWriteQueue=cloudWriteQueue.then(()=>runTransaction(cloudDb,async tx=>{
+      const ref=doc(cloudDb,"shared","main"),snap=await tx.get(ref),remote=snap.exists()?snap.data():{};
+      const merged=new Map();
+      (Array.isArray(remote.sales)?remote.sales:[]).forEach(s=>merged.set(String(s.id),s));
+      localSales.forEach(s=>merged.set(String(s.id),s));
+      tx.set(ref,{...remote,goals:{...(remote.goals||{}),...localGoals},sales:[...merged.values()],updatedAt:serverTimestamp(),updatedBy:currentUser.email});
+    })).catch(err=>{document.getElementById("syncStatus").textContent="Error al sincronizar: "+err.message;});
+  }
+}
+async function saveAmbassadorName(){
+  if(!currentUser||!syncReady)return;
+  const name=$("ambassadorDisplayName").value.trim();
+  if(!name){$("saleMessage").textContent="Escribe tu nombre para identificar tus ventas.";return;}
+  try{
+    await runTransaction(cloudDb,async tx=>{
+      const ref=doc(cloudDb,"shared","main"),snap=await tx.get(ref),remote=snap.exists()?snap.data():{};
+      const namesMap={...(remote.ambassadorNames||{}),[currentUser.email]:name};
+      tx.set(ref,{...remote,ambassadorNames:namesMap,updatedAt:serverTimestamp(),updatedBy:currentUser.email});
+    });
+    $("saleMessage").textContent="Nombre guardado para todo el equipo.";
+  }catch(e){$("saleMessage").textContent="No se pudo guardar el nombre: "+e.message;}
+}
+$("ambassadorDisplayName").addEventListener("change",saveAmbassadorName);
+
+$("month").addEventListener("change",()=>{render();$("saleDate").value=selectedMonth()+"-01";$("rDate").value=selectedMonth()+"-01"});
+const qtyInput=$("saleQty"),unitInput=$("saleUnitPrice");function calcSaleTotal(){const q=Math.max(1,Math.round(Number(qtyInput.value)||1)),u=Math.max(0,Math.round(Number(unitInput.value)||0));$("saleAmount").value=u?q*u:""}qtyInput.addEventListener("input",calcSaleTotal);unitInput.addEventListener("input",calcSaleTotal);
+function renderDailyConsolidated(){const date=$("saleDate").value||new Date().toISOString().slice(0,10),rows=db.sales.filter(s=>s.date===date),byAmb=new Map(),byRef=new Map();rows.forEach(s=>{const a=s.ambassador||"Sin identificar",r=s.reference||"Sin referencia";byAmb.set(a,(byAmb.get(a)||0)+Number(s.amount||0));const prev=byRef.get(r)||{qty:0,total:0};prev.qty+=Number(s.quantity||1);prev.total+=Number(s.amount||0);byRef.set(r,prev)});const total=rows.reduce((a,s)=>a+Number(s.amount||0),0),units=rows.reduce((a,s)=>a+Number(s.quantity||1),0);$("dailyConsolidated").innerHTML=`<div class="cards"><div class="metric"><small>Total vendido</small><strong>${money(total)}</strong></div><div class="metric"><small>Unidades</small><strong>${units}</strong></div></div><h3>Por embajador</h3>${byAmb.size?`<table><thead><tr><th>Embajador</th><th>Venta</th></tr></thead><tbody>${[...byAmb].map(([n,v])=>`<tr><td>${n}</td><td>${money(v)}</td></tr>`).join("")}</tbody></table>`:"<p class=muted>Sin ventas para esta fecha.</p>"}<h3>Por referencia</h3>${byRef.size?`<table><thead><tr><th>Referencia</th><th>Unidades</th><th>Total</th></tr></thead><tbody>${[...byRef].map(([n,v])=>`<tr><td>${n}</td><td>${v.qty}</td><td>${money(v.total)}</td></tr>`).join("")}</tbody></table>`:"<p class=muted>Sin referencias registradas.</p>"}`;
+const ambassadorRows=[...byAmb].map(([n,v])=>`<tr><td>${n}</td><td>${money(v)}</td></tr>`).join("");
+const referenceRows=[...byRef].map(([n,v])=>`<tr><td>${n}</td><td>${v.qty}</td><td>${money(v.total)}</td></tr>`).join("");
+$("shiftCloseSummary").innerHTML=`<div class="cards"><div class="metric"><small>Total de embajadores</small><strong>${byAmb.size}</strong></div><div class="metric"><small>Total de unidades</small><strong>${units}</strong></div><div class="metric"><small>Total vendido</small><strong>${money(total)}</strong></div></div><h3>Detalle por referencia</h3><table><thead><tr><th>Referencia</th><th>Cant.</th><th>Valor</th></tr></thead><tbody>${referenceRows||'<tr><td colspan="3">Sin ventas</td></tr>'}</tbody></table>`;
+}
+$("saleDate").addEventListener("change",renderDailyConsolidated);
+$("shareShift").addEventListener("click",async()=>{const date=$("saleDate").value||new Date().toISOString().slice(0,10);const rows=db.sales.filter(s=>s.date===date);const total=rows.reduce((a,s)=>a+Number(s.amount||0),0);const units=rows.reduce((a,s)=>a+Number(s.quantity||1),0);const by=new Map();rows.forEach(s=>{const n=s.ambassador||s.ambassadorEmail||'Sin identificar';by.set(n,(by.get(n)||0)+Number(s.amount||0))});const text=`CIERRE DE TURNO · ${date}\nUnidades: ${units}\nTotal vendido: ${money(total)}\n\n${[...by].map(([n,v])=>`${n}: ${money(v)}`).join('\n')}`;try{if(navigator.share)await navigator.share({text});else{await navigator.clipboard.writeText(text);alert('Cierre copiado. Pégalo en WhatsApp.')}}catch(e){console.log(e)}});
+$("addSale").addEventListener("click",()=>{let date=$("saleDate").value,amount=Number($("saleAmount").value),category=Number($("saleCategory").value);if(!date||date.slice(0,7)!==selectedMonth()){$("saleMessage").textContent="Selecciona una fecha dentro del mes elegido.";return}if(!(amount>0)){$("saleMessage").textContent="Escribe un valor de venta mayor que cero.";return}const displayName=$("ambassadorDisplayName").value.trim();if(!displayName){$("saleMessage").textContent="Primero escribe y guarda tu nombre de embajador.";$("ambassadorDisplayName").focus();return}const reference=$("saleReference").value.trim(),quantity=Math.max(1,Math.round(Number($("saleQty").value)||1)),unitPrice=Math.round(Number($("saleUnitPrice").value)||0);if(!reference){$("saleMessage").textContent="Escribe la referencia o modelo del producto.";return}if(!(unitPrice>0)){$("saleMessage").textContent="Escribe un valor unitario válido.";return}db.sales.push({id:crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(36).slice(2)}`,date,amount:Math.round(unitPrice*quantity),unitPrice,quantity,reference,category,ambassador:$("ambassadorDisplayName").value.trim()||currentUser?.displayName||currentUser?.email||"Sin identificar",ambassadorEmail:currentUser?.email||""});save();$("saleReference").value="";$("saleQty").value="1";$("saleUnitPrice").value="";$("saleAmount").value="";$("saleMessage").textContent="Venta guardada correctamente.";render()});
+$("exportExcel").addEventListener("click",()=>{if(!window.XLSX){alert("No se pudo cargar el módulo de Excel. Verifica tu conexión a internet.");return;}const month=selectedMonth(),rows=db.sales.filter(inMonth).map(s=>({Fecha:s.date,Categoría:names[s.category]||"",Embajador:s.ambassador||"Sin identificar",Referencia:s.reference||"",Cantidad:s.quantity||1,Valor_Unitario_COP:s.unitPrice||0,Valor_COP:Math.round(Number(s.amount)||0)}));const summary=names.map((n,i)=>({Categoría:n,Meta_COP:goal(i),Ventas_COP:sales(i),Cumplimiento:goal(i)?(sales(i)/goal(i)*100).toFixed(1)+"%":"0%"}));summary.push({Categoría:"TOTAL",Meta_COP:names.reduce((a,_,i)=>a+goal(i),0),Ventas_COP:sumSales(),Cumplimiento:names.reduce((a,_,i)=>a+goal(i),0)?(sumSales()/names.reduce((a,_,i)=>a+goal(i),0)*100).toFixed(1)+"%":"0%"});const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(summary),"Resumen mensual");XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),"Detalle de ventas");XLSX.writeFile(wb,`Hyundai_Ventas_${month}.xlsx`);});
+$("export").addEventListener("click",()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="respaldo-hyundai-ventas.json";a.click();URL.revokeObjectURL(a.href)});$("importBtn").addEventListener("click",()=>$("importFile").click());$("importFile").addEventListener("change",async e=>{try{let x=JSON.parse(await e.target.files[0].text());if(!x.goals||!Array.isArray(x.sales))throw Error();db=x;save();render();alert("Respaldo importado.")}catch{alert("No se pudo leer el respaldo.")}e.target.value=""});render();
+
+// Módulo de reporte diario
+const rMoney=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(n)||0);
+const rVal=id=>Math.max(0,Math.round(Number(document.getElementById(id).value)||0));
+const rCategories=[['TV HYUNDAI','rTv'],['AUDIO','rAudio'],['AA HYUNDAI','rAaHy'],['TV FINLANDEK','rTvFin']];
+const rBrands=['Samsung','LG','Challenger','TCL','HISENSE','CAIXUN'];
+const rAmb=document.getElementById('rAmbassadors'),rComp=document.getElementById('rCompetition');
+
+function rInitCompetition(){rComp.innerHTML=rBrands.map((b,i)=>`<div class="grid" style="margin-bottom:8px"><div><label>${b} · Cantidad</label><input class="rBrandQty" data-brand="${b}" type="number" min="0" step="1" placeholder="0"></div><div><label>${b} · Tamaños (pulgadas)</label><input class="rBrandSizes" data-brand="${b}" placeholder="Ej. 50 (2), 43 (1)"></div></div>`).join('')}
+rInitCompetition();
+const rToday=new Date();document.getElementById('rDate').value=`${rToday.getFullYear()}-${String(rToday.getMonth()+1).padStart(2,'0')}-${String(rToday.getDate()).padStart(2,'0')}`;
+function rCalc(){const total=rCategories.reduce((a,x)=>a+rVal(x[1]),0);document.getElementById('rTotal').textContent=rMoney(total);const budget=rVal('rBudget'),sales=rVal('rSalesToDate');document.getElementById('rCompliance').textContent=(budget?sales/budget*100:0).toFixed(1)+'%'}
+function rBuild(){rCalc();const pdv=document.getElementById('rPdv').value.trim()||'PDV',date=document.getElementById('rDate').value;const dateText=date?date.split('-').reverse().join('/'):'Fecha';let out=`VENTAS ${pdv.toUpperCase()}
+${dateText}
+
+*PRODUCTO*
+
+${document.getElementById('rProducts').value.trim()||'Sin referencias registradas'}
+
+*VENTA SIN IVA POR CATEGORIA*
+
+`;
+rCategories.forEach(([label,id])=>out+=`${label}: ${rMoney(rVal(id))}
+`);
+const total=rCategories.reduce((a,x)=>a+rVal(x[1]),0);out+=`
+*TOTAL SIN IVA ${rMoney(total)}*
+(SUMA DE LAS CUATRO CATEGORIAS)
+
+Aportes por embajador
+(Cantidad de embajadores que apoye el pdv incluyendo tropa)
+
+`;
+for(let i=1;i<=4;i++){const name=document.getElementById(`rAmbName${i}`).value.trim()||`Embajador ${i}`;const amount=rVal(`rAmbAmount${i}`);out+=`${name}: ${rMoney(amount)}\n`}
+const budget=rVal('rBudget'),sales=rVal('rSalesToDate'),pct=budget?sales/budget*100:0;out+=`
+Presupuesto mes: ${rMoney(budget)}
+VENTA A LA FECHA: ${rMoney(sales)}
+CUMPLIMIENTO A LA FECHA: ${pct.toFixed(1)} %
+
+*VENTA COMPETENCIA*
+
+`;
+rBrands.forEach(b=>{const q=Number(rComp.querySelector(`.rBrandQty[data-brand="${b}"]`).value)||0;const sizes=rComp.querySelector(`.rBrandSizes[data-brand="${b}"]`).value.trim();if(q||sizes)out+=`${b}: ${q}${sizes?' ('+sizes+')':''}
+`;else out+=`${b}: 0
+`});
+document.getElementById('rOutput').value=out;document.getElementById('rMessage').textContent='Reporte generado. Revisa los datos antes de copiar.';return out}
+document.getElementById('rGenerate').addEventListener('click',rBuild);
+document.getElementById('rShare').addEventListener('click',async()=>{
+  const out=document.getElementById('rOutput').value.trim()||rBuild();
+  if(navigator.share){
+    try{await navigator.share({text:out});document.getElementById('rMessage').textContent='Se abrió el menú para compartir. Selecciona WhatsApp y el destinatario.';}
+    catch(e){if(e.name!=='AbortError')document.getElementById('rMessage').textContent='No se pudo abrir el menú para compartir. Puedes copiar el reporte.';}
+  }else{
+    const url='https://wa.me/?text='+encodeURIComponent(out);
+    window.location.href=url;
+    document.getElementById('rMessage').textContent='Abriendo WhatsApp con el reporte preparado.';
+  }
+});
+document.getElementById('rCopy').addEventListener('click',async()=>{const out=document.getElementById('rOutput').value||rBuild();try{await navigator.clipboard.writeText(out);document.getElementById('rMessage').textContent='Reporte copiado. Ya puedes pegarlo en WhatsApp.'}catch(e){document.getElementById('rOutput').focus();document.getElementById('rOutput').select();document.getElementById('rMessage').textContent='Selecciona y copia el texto del reporte.'}});
+// Sincronización compartida: metas y ventas quedan en un documento común de Firestore.
+onAuthStateChanged(auth, user => {
+  syncReady = false;
+  currentUser = user;
+  if (stopCloudListener) { stopCloudListener(); stopCloudListener = null; }
+  document.getElementById("loginView").style.display = user ? "none" : "block";
+  document.getElementById("appShell").style.display = user ? "block" : "none";
+  if (!user) { document.getElementById("syncStatus").textContent = "Sesión cerrada"; return; }
+  document.getElementById("syncStatus").textContent = "Conectando datos compartidos…"; document.getElementById("syncStatus").textContent = "Conectando datos compartidos…";
+  const sharedRef = doc(cloudDb,"shared","main");
+  let firstSnapshot = true;
+  stopCloudListener = onSnapshot(sharedRef, async snap => {
+    if (snap.exists()) {
+      const remote = snap.data();
+      db = {goals: remote.goals || {}, sales: Array.isArray(remote.sales) ? remote.sales : []};
+      const savedAmbassadorName=(remote.ambassadorNames||{})[user.email];
+      $("ambassadorDisplayName").value=savedAmbassadorName||user.displayName||"";
+      db.sales=db.sales.map(s=>({...s,ambassador:(remote.ambassadorNames||{})[s.ambassadorEmail]||s.ambassador||s.ambassadorEmail||"Sin identificar"}));
+      localStorage.setItem(key,JSON.stringify(db));
+      syncReady = true;
+      render();
+      document.getElementById("syncStatus").textContent = "Sincronizado · " + user.email;
+    } else if (firstSnapshot) {
+      // Migra los datos locales del primer dispositivo si la nube aún está vacía.
+      const local = JSON.parse(localStorage.getItem(key)||'{"goals":{},"sales":[]}');
+      db = {goals:local.goals||{},sales:Array.isArray(local.sales)?local.sales:[]};
+      await setDoc(sharedRef,{...db,updatedAt:serverTimestamp(),updatedBy:user.email});
+      syncReady = true;
+      render();
+      document.getElementById("syncStatus").textContent = "Datos iniciales enviados a la nube";
+    }
+    firstSnapshot = false;
+  }, err => {
+    syncReady = false;
+    document.getElementById("syncStatus").textContent = "Error de Firestore: " + err.message;
+  });
+});
+
+rCalc();
+document.querySelectorAll('#dailyReportPanel input, #dailyReportPanel textarea').forEach(el=>el.addEventListener('input',()=>{if(el.id.startsWith('r') && !['rTv','rAudio','rAaHy','rTvFin'].includes(el.id))rCalc()}));
+
+</script></body></html>
