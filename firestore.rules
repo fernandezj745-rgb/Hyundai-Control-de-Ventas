@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && request.auth.token.email == 'fernandezj745@gmail.com';
+    }
+    function isTeam() {
+      return signedIn() && request.auth.token.email in [
+        'fernandezj745@gmail.com',
+        'thebotssense@gmail.com',
+        'tvcuetoandres@gmail.com'
+      ];
+    }
+    match /sales/{saleId} {
+      allow read: if isTeam();
+      allow create: if isTeam()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ambassadorEmail == request.auth.token.email
+        && request.resource.data.id == saleId
+        && request.resource.data.amount is number
+        && request.resource.data.quantity is int
+        && request.resource.data.quantity > 0;
+      allow update: if isAdmin();
+      allow delete: if isAdmin() || (isTeam() && resource.data.ownerUid == request.auth.uid);
+    }
+    match /settings/goals {
+      allow read: if isTeam();
+      allow create, update, delete: if isAdmin();
+    }
+    match /profiles/{uid} {
+      allow read: if isTeam();
+      allow create, update: if isTeam() && request.auth.uid == uid
+        && request.resource.data.email == request.auth.token.email;
+      allow delete: if isAdmin();
+    }
+    // La estructura antigua compartida deja de aceptar escrituras desde la app nueva.
+    match /shared/main {
+      allow read: if isTeam();
+      allow write: if isAdmin();
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
